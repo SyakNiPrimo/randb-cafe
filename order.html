@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Online — R&B Kosher Bakery Cafe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --cream: #F5F0E8;
+  --cream-light: #FAF8F3;
+  --burgundy: #6B1D2A;
+  --burgundy-light: #8A2E3B;
+  --gold: #C9A84C;
+  --gold-light: #D4B96A;
+  --text: #1A1714;
+  --text-muted: #5C564E;
+  --white: #FFFFFF;
+  --border: rgba(107, 29, 42, 0.12);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); color: var(--text); background: var(--cream); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+/* ─── NAV ─── */
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(245,240,232,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.nav-logo { font-family: var(--serif); font-size: 1.35rem; font-weight: 700; color: var(--burgundy); }
+.nav-logo span { color: var(--gold); }
+.nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+.nav-links a { font-size: 0.88rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-muted); transition: color 0.25s; position: relative; }
+.nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1.5px; background: var(--burgundy); transition: width 0.3s ease; }
+.nav-links a:hover { color: var(--burgundy); }
+.nav-links a:hover::after { width: 100%; }
+.nav-links .nav-cta { background: var(--burgundy); color: var(--cream); padding: 10px 24px; border-radius: 6px; font-size: 0.82rem; letter-spacing: 0.06em; transition: background 0.25s, transform 0.2s; }
+.nav-links .nav-cta::after { display: none; }
+.nav-links .nav-cta:hover { background: var(--burgundy-light); color: var(--white); transform: translateY(-1px); }
+.nav-toggle { display: none; flex-direction: column; gap: 5px; width: 28px; padding: 4px 0; }
+.nav-toggle span { display: block; height: 2px; background: var(--burgundy); border-radius: 2px; }
+
+/* ─── HERO ─── */
+.page-hero { position: relative; padding: 140px 0 80px; text-align: center; background: var(--text); overflow: hidden; }
+.page-hero-bg { position: absolute; inset: 0; background: url('https://static.wixstatic.com/media/11062b_b2ed7d8cbaf440e2bcc85cace471c6f5~mv2_d_6000_4000_s_4_2.jpg/v1/fill/w_1600,h_900,al_c,q_85,enc_avif,quality_auto/11062b_b2ed7d8cbaf440e2bcc85cace471c6f5~mv2_d_6000_4000_s_4_2.jpg') center/cover no-repeat; opacity: 0.3; }
+.page-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,23,20,0.6) 0%, rgba(107,29,42,0.25) 100%); }
+.page-hero-content { position: relative; z-index: 2; }
+.page-hero h1 { font-family: var(--serif); font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 600; color: var(--cream); margin-bottom: 12px; }
+.page-hero p { color: rgba(245,240,232,0.65); font-size: 1.1rem; max-width: 520px; margin: 0 auto; }
+
+/* ─── ORDER OPTIONS ─── */
+.order-options {
+  padding: 80px 0 40px;
+}
+.order-options-inner {
+  max-width: 1000px; margin: 0 auto; padding: 0 24px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+}
+.order-option {
+  background: var(--cream-light); border: 1px solid var(--border); border-radius: 16px;
+  padding: 36px 28px; text-align: center; transition: transform 0.3s, box-shadow 0.3s;
+}
+.order-option:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(26,23,20,0.06); }
+.order-option-icon { font-size: 2rem; margin-bottom: 16px; }
+.order-option h3 { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; margin-bottom: 8px; }
+.order-option p { color: var(--text-muted); font-size: 0.88rem; line-height: 1.6; margin-bottom: 4px; }
+
+/* ─── MENU + CART ─── */
+.order-body { padding: 40px 0 100px; }
+.order-container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+
+.order-section { margin-bottom: 56px; }
+.order-section h2 {
+  font-family: var(--serif); font-size: 1.8rem; font-weight: 600; color: var(--burgundy);
+  padding-bottom: 16px; border-bottom: 1px solid var(--border); margin-bottom: 20px;
+}
+.order-section > p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; margin-top: -8px; }
+
+.order-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+.order-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 24px; background: var(--cream-light); border: 1px solid var(--border);
+  border-radius: 12px; transition: border-color 0.25s;
+}
+.order-item:hover { border-color: var(--burgundy); }
+.order-item-info h4 { font-family: var(--serif); font-size: 1.15rem; font-weight: 600; margin-bottom: 2px; }
+.order-item-info p { color: var(--text-muted); font-size: 0.82rem; }
+.order-item-right { display: flex; align-items: center; gap: 16px; }
+.order-item-price { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; color: var(--burgundy); white-space: nowrap; }
+.add-btn {
+  width: 36px; height: 36px; border-radius: 50%; background: var(--burgundy);
+  color: var(--cream); font-size: 1.3rem; display: flex; align-items: center;
+  justify-content: center; transition: background 0.2s, transform 0.2s; flex-shrink: 0;
+}
+.add-btn:hover { background: var(--burgundy-light); transform: scale(1.1); }
+
+/* ─── CART ─── */
+.cart-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 90;
+  background: var(--text); color: var(--cream); transform: translateY(100%);
+  transition: transform 0.35s ease;
+}
+.cart-bar.visible { transform: translateY(0); }
+.cart-bar-inner {
+  max-width: 1000px; margin: 0 auto; padding: 16px 24px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.cart-info { display: flex; align-items: center; gap: 16px; }
+.cart-count {
+  background: var(--burgundy); width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.82rem; font-weight: 700;
+}
+.cart-total { font-family: var(--serif); font-size: 1.2rem; font-weight: 600; }
+.cart-actions { display: flex; gap: 12px; }
+.cart-btn {
+  padding: 10px 24px; border-radius: 6px; font-size: 0.82rem; font-weight: 600;
+  letter-spacing: 0.04em; text-transform: uppercase; transition: all 0.25s;
+}
+.cart-btn-clear { border: 1px solid rgba(245,240,232,0.2); color: rgba(245,240,232,0.6); }
+.cart-btn-clear:hover { border-color: rgba(245,240,232,0.5); color: var(--cream); }
+.cart-btn-send { background: var(--gold); color: var(--text); }
+.cart-btn-send:hover { background: var(--gold-light); }
+
+/* ─── FOOTER ─── */
+.footer { background: var(--text); color: rgba(245,240,232,0.7); padding: 60px 0 0; }
+.footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.footer .nav-logo { font-size: 1.3rem; }
+.footer-links { display: flex; gap: 28px; list-style: none; }
+.footer-links a { font-size: 0.85rem; transition: color 0.25s; }
+.footer-links a:hover { color: var(--gold); }
+.footer-contact-line { font-size: 0.88rem; }
+.footer-bottom { margin-top: 40px; padding: 20px 24px; border-top: 1px solid rgba(245,240,232,0.08); text-align: center; font-size: 0.8rem; color: rgba(245,240,232,0.35); max-width: 1200px; margin-left: auto; margin-right: auto; }
+
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: flex; }
+  .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 72px; left: 0; right: 0; background: var(--cream); padding: 24px; gap: 20px; border-bottom: 1px solid var(--border); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+  .nav-links.open .nav-cta { text-align: center; display: block; }
+  .order-options-inner { grid-template-columns: 1fr; max-width: 400px; }
+  .order-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .page-hero { padding: 120px 0 60px; }
+  .order-item { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .order-item-right { align-self: flex-end; }
+  .footer-inner { flex-direction: column; text-align: center; }
+  .footer-links { justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">R&B <span>Kosher Bakery</span> Cafe</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="order.html">Online Orders</a></li>
+      <li><a href="reservations.html">Reservations</a></li>
+      <li><a href="reservations.html" class="nav-cta">Book Online</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-content">
+    <h1>Order Online</h1>
+    <p>Browse our menu, build your order, and we'll have it ready for you.</p>
+  </div>
+</section>
+
+<section class="order-options">
+  <div class="order-options-inner">
+    <div class="order-option">
+      <div class="order-option-icon">🛍️</div>
+      <h3>Pickup</h3>
+      <p>Ready in up to 30 minutes</p>
+    </div>
+    <div class="order-option">
+      <div class="order-option-icon">🚗</div>
+      <h3>Delivery</h3>
+      <p>Delivered to your door</p>
+    </div>
+    <div class="order-option">
+      <div class="order-option-icon">🍽️</div>
+      <h3>Dine-In</h3>
+      <p>Order ahead, skip the wait</p>
+    </div>
+  </div>
+</section>
+
+<section class="order-body">
+  <div class="order-container">
+
+    <div class="order-section">
+      <h2>Appetizers</h2>
+      <p>These dishes are great for sharing</p>
+      <div class="order-grid">
+        <div class="order-item">
+          <div class="order-item-info"><h4>Greek Salad</h4><p>Fresh vegetables, feta cheese, exquisite dressing</p></div>
+          <div class="order-item-right"><span class="order-item-price">$15.00</span><button class="add-btn" data-name="Greek Salad" data-price="15.00">+</button></div>
+        </div>
+        <div class="order-item">
+          <div class="order-item-info"><h4>Caesar Salad</h4><p>Romaine, Caesar dressing, croutons, Parmesan</p></div>
+          <div class="order-item-right"><span class="order-item-price">$15.00</span><button class="add-btn" data-name="Caesar Salad" data-price="15.00">+</button></div>
+        </div>
+        <div class="order-item">
+          <div class="order-item-info"><h4>Tomato &amp; Cucumber Salad</h4><p>Classic mix of tomatoes &amp; cucumbers</p></div>
+          <div class="order-item-right"><span class="order-item-price">$15.00</span><button class="add-btn" data-name="Tomato & Cucumber Salad" data-price="15.00">+</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="order-section">
+      <h2>Mains</h2>
+      <p>A diverse range of flavorful dishes, sourced daily and locally</p>
+      <div class="order-grid">
+        <div class="order-item">
+          <div class="order-item-info"><h4>Salmon Fillet</h4><p>With roasted potatoes, garlic herbs, tomato basil salad</p></div>
+          <div class="order-item-right"><span class="order-item-price">$30.00</span><button class="add-btn" data-name="Salmon Fillet" data-price="30.00">+</button></div>
+        </div>
+        <div class="order-item">
+          <div class="order-item-info"><h4>Penovani Khachapuri</h4><p>Flaky pastry filled with 3 cheeses</p></div>
+          <div class="order-item-right"><span class="order-item-price">$7.95</span><button class="add-btn" data-name="Penovani Khachapuri" data-price="7.95">+</button></div>
+        </div>
+        <div class="order-item">
+          <div class="order-item-info"><h4>Ajarian Khachapuri</h4><p>Boat-shaped, 3 cheeses, topped with egg</p></div>
+          <div class="order-item-right"><span class="order-item-price">$20.00</span><button class="add-btn" data-name="Ajarian Khachapuri" data-price="20.00">+</button></div>
+        </div>
+        <div class="order-item">
+          <div class="order-item-info"><h4>Pizza</h4><p>Freshly baked kosher pizza</p></div>
+          <div class="order-item-right"><span class="order-item-price">$14.95</span><button class="add-btn" data-name="Pizza" data-price="14.95">+</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="order-section">
+      <h2>Breakfast</h2>
+      <p>Start your morning with our freshly baked bagels</p>
+      <div class="order-grid">
+        <div class="order-item">
+          <div class="order-item-info"><h4>Bagels</h4><p>Freshly baked jumbo bagels</p></div>
+          <div class="order-item-right"><span class="order-item-price">$3.00</span><button class="add-btn" data-name="Bagels" data-price="3.00">+</button></div>
+        </div>
+        <div class="order-item">
+          <div class="order-item-info"><h4>Bagel with Cream Cheese</h4></div>
+          <div class="order-item-right"><span class="order-item-price">$8.50</span><button class="add-btn" data-name="Bagel with Cream Cheese" data-price="8.50">+</button></div>
+        </div>
+        <div class="order-item">
+          <div class="order-item-info"><h4>Bagel with Cream Cheese &amp; Lox</h4></div>
+          <div class="order-item-right"><span class="order-item-price">$12.50</span><button class="add-btn" data-name="Bagel with Cream Cheese & Lox" data-price="12.50">+</button></div>
+        </div>
+        <div class="order-item">
+          <div class="order-item-info"><h4>Bagel with Lox</h4></div>
+          <div class="order-item-right"><span class="order-item-price">$10.50</span><button class="add-btn" data-name="Bagel with Lox" data-price="10.50">+</button></div>
+        </div>
+        <div class="order-item">
+          <div class="order-item-info"><h4>Bagel with Eggs</h4><p>Omelette, sunny side-up, or scrambled</p></div>
+          <div class="order-item-right"><span class="order-item-price">$14.00</span><button class="add-btn" data-name="Bagel with Eggs" data-price="14.00">+</button></div>
+        </div>
+        <div class="order-item">
+          <div class="order-item-info"><h4>Bagel with Tuna</h4></div>
+          <div class="order-item-right"><span class="order-item-price">$8.50</span><button class="add-btn" data-name="Bagel with Tuna" data-price="8.50">+</button></div>
+        </div>
+        <div class="order-item">
+          <div class="order-item-info"><h4>Bagel with Egg Salad</h4></div>
+          <div class="order-item-right"><span class="order-item-price">$10.50</span><button class="add-btn" data-name="Bagel with Egg Salad" data-price="10.50">+</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="order-section">
+      <h2>Desserts</h2>
+      <p>Made in-house by our pastry chef</p>
+      <div class="order-grid">
+        <div class="order-item">
+          <div class="order-item-info"><h4>Cream Taco</h4><p>Soft taco shell, Chantilly cream, various toppings</p></div>
+          <div class="order-item-right"><span class="order-item-price">$6.50</span><button class="add-btn" data-name="Cream Taco" data-price="6.50">+</button></div>
+        </div>
+        <div class="order-item">
+          <div class="order-item-info"><h4>Mini Mango Cake</h4><p>Two-layered cake with cream and fresh mango</p></div>
+          <div class="order-item-right"><span class="order-item-price">$7.00</span><button class="add-btn" data-name="Mini Mango Cake" data-price="7.00">+</button></div>
+        </div>
+        <div class="order-item">
+          <div class="order-item-info"><h4>Mini Cherry Cake</h4><p>Two-layered cake with cream and cherry filling</p></div>
+          <div class="order-item-right"><span class="order-item-price">$7.00</span><button class="add-btn" data-name="Mini Cherry Cake" data-price="7.00">+</button></div>
+        </div>
+        <div class="order-item">
+          <div class="order-item-info"><h4>Mini Strawberry Shortcake</h4><p>Two-layered cake with cream and strawberry</p></div>
+          <div class="order-item-right"><span class="order-item-price">$7.00</span><button class="add-btn" data-name="Mini Strawberry Shortcake" data-price="7.00">+</button></div>
+        </div>
+        <div class="order-item">
+          <div class="order-item-info"><h4>Eclair</h4></div>
+          <div class="order-item-right"><span class="order-item-price">$8.00</span><button class="add-btn" data-name="Eclair" data-price="8.00">+</button></div>
+        </div>
+        <div class="order-item">
+          <div class="order-item-info"><h4>Pâte à Choux</h4><p>Delicate French pastry</p></div>
+          <div class="order-item-right"><span class="order-item-price">$8.00</span><button class="add-btn" data-name="Pâte à Choux" data-price="8.00">+</button></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CART BAR -->
+<div class="cart-bar" id="cartBar">
+  <div class="cart-bar-inner">
+    <div class="cart-info">
+      <div class="cart-count" id="cartCount">0</div>
+      <span>items</span>
+      <span class="cart-total" id="cartTotal">$0.00</span>
+    </div>
+    <div class="cart-actions">
+      <button class="cart-btn cart-btn-clear" id="cartClear">Clear</button>
+      <button class="cart-btn cart-btn-send" id="cartSend">Send Order</button>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <a href="index.html" class="nav-logo">R&B <span>Kosher Bakery</span> Cafe</a>
+    <ul class="footer-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="order.html">Online Orders</a></li>
+      <li><a href="reservations.html">Reservations</a></li>
+    </ul>
+    <div class="footer-contact-line">(347) 600-2248 · randbkosherbakery@gmail.com</div>
+  </div>
+  <div class="footer-bottom">&copy; 2026 R&B Kosher Bakery Cafe. All rights reserved.</div>
+</footer>
+
+<script>
+document.getElementById('navToggle').addEventListener('click', function() {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+const cart = [];
+const cartBar = document.getElementById('cartBar');
+const cartCount = document.getElementById('cartCount');
+const cartTotal = document.getElementById('cartTotal');
+
+function updateCart() {
+  const count = cart.reduce((sum, i) => sum + i.qty, 0);
+  const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+  cartCount.textContent = count;
+  cartTotal.textContent = '$' + total.toFixed(2);
+  cartBar.classList.toggle('visible', count > 0);
+}
+
+document.querySelectorAll('.add-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const name = this.dataset.name;
+    const price = parseFloat(this.dataset.price);
+    const existing = cart.find(i => i.name === name);
+    if (existing) { existing.qty++; } else { cart.push({ name, price, qty: 1 }); }
+    updateCart();
+    this.textContent = '✓';
+    this.style.background = 'var(--gold)';
+    this.style.color = 'var(--text)';
+    setTimeout(() => { this.textContent = '+'; this.style.background = ''; this.style.color = ''; }, 600);
+  });
+});
+
+document.getElementById('cartClear').addEventListener('click', function() {
+  cart.length = 0;
+  updateCart();
+});
+
+document.getElementById('cartSend').addEventListener('click', function() {
+  if (cart.length === 0) return;
+  const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+  const items = cart.map(i => '  ' + i.qty + 'x ' + i.name + ' — $' + (i.price * i.qty).toFixed(2)).join('\n');
+  const subject = encodeURIComponent('Online Order — R&B Kosher Bakery Cafe');
+  const body = encodeURIComponent(
+    'New Online Order\n' +
+    '━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+    items + '\n\n' +
+    'Total: $' + total.toFixed(2) + '\n\n' +
+    '━━━━━━━━━━━━━━━━━━━━━━\n' +
+    'Please reply to confirm the order and estimated time.\n\n' +
+    'Sent from R&B Kosher Bakery Cafe website'
+  );
+  window.location.href = 'mailto:randbkosherbakery@gmail.com?subject=' + subject + '&body=' + body;
+});
+</script>
+
+</body>
+</html>
