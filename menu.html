@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu — R&B Kosher Bakery Cafe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --cream: #F5F0E8;
+  --cream-light: #FAF8F3;
+  --burgundy: #6B1D2A;
+  --burgundy-light: #8A2E3B;
+  --gold: #C9A84C;
+  --gold-light: #D4B96A;
+  --text: #1A1714;
+  --text-muted: #5C564E;
+  --white: #FFFFFF;
+  --border: rgba(107, 29, 42, 0.12);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  color: var(--text);
+  background: var(--cream);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ─── NAV ─── */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(245, 240, 232, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.nav-logo {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--burgundy);
+  letter-spacing: -0.01em;
+}
+
+.nav-logo span { color: var(--gold); }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color 0.25s;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background: var(--burgundy);
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover { color: var(--burgundy); }
+.nav-links a:hover::after { width: 100%; }
+
+.nav-links .nav-cta {
+  background: var(--burgundy);
+  color: var(--cream);
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  transition: background 0.25s, transform 0.2s;
+}
+.nav-links .nav-cta::after { display: none; }
+.nav-links .nav-cta:hover {
+  background: var(--burgundy-light);
+  color: var(--white);
+  transform: translateY(-1px);
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  width: 28px;
+  padding: 4px 0;
+}
+.nav-toggle span {
+  display: block;
+  height: 2px;
+  background: var(--burgundy);
+  border-radius: 2px;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+/* ─── HERO ─── */
+.menu-hero {
+  position: relative;
+  padding: 140px 0 80px;
+  text-align: center;
+  background: var(--text);
+  overflow: hidden;
+}
+
+.menu-hero-bg {
+  position: absolute;
+  inset: 0;
+  background: url('https://images.unsplash.com/photo-1517433670267-08bbd4be890f?w=1600&q=80') center/cover no-repeat;
+  opacity: 0.3;
+}
+
+.menu-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(26,23,20,0.6) 0%, rgba(107,29,42,0.25) 100%);
+}
+
+.menu-hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.menu-hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 600;
+  color: var(--cream);
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.menu-hero p {
+  color: rgba(245,240,232,0.65);
+  font-size: 1.1rem;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* ─── CATEGORY NAV ─── */
+.cat-nav {
+  position: sticky;
+  top: 72px;
+  z-index: 90;
+  background: rgba(245, 240, 232, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cat-nav::-webkit-scrollbar { display: none; }
+
+.cat-nav-inner {
+  display: flex;
+  gap: 8px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 24px;
+}
+
+.cat-btn {
+  padding: 8px 20px;
+  border-radius: 100px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--text-muted);
+  border: 1.5px solid var(--border);
+  transition: all 0.25s;
+}
+
+.cat-btn:hover,
+.cat-btn.active {
+  background: var(--burgundy);
+  color: var(--cream);
+  border-color: var(--burgundy);
+}
+
+/* ─── MENU SECTIONS ─── */
+.menu-body { padding: 64px 0 100px; }
+
+.menu-section { margin-bottom: 72px; }
+.menu-section:last-child { margin-bottom: 0; }
+
+.menu-section-header {
+  margin-bottom: 36px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.menu-section-header h2 {
+  font-family: var(--serif);
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--burgundy);
+  margin-bottom: 6px;
+}
+
+.menu-section-header p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.menu-item {
+  display: flex;
+  gap: 20px;
+  padding: 24px;
+  background: var(--cream-light);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.menu-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(26,23,20,0.06);
+}
+
+.menu-item-text { flex: 1; }
+
+.menu-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 6px;
+}
+
+.menu-item-top h3 {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.menu-item-price {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--burgundy);
+  white-space: nowrap;
+}
+
+.menu-item-desc {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.menu-item-tag {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(201,168,76,0.1);
+  padding: 3px 10px;
+  border-radius: 4px;
+}
+
+/* ─── ORDER CTA ─── */
+.order-cta {
+  text-align: center;
+  padding: 80px 24px;
+  background: var(--burgundy);
+}
+
+.order-cta h2 {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 600;
+  color: var(--cream);
+  margin-bottom: 12px;
+}
+
+.order-cta p {
+  color: rgba(245,240,232,0.65);
+  margin-bottom: 32px;
+  font-size: 1.05rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.btn-gold {
+  background: var(--gold);
+  color: var(--text);
+}
+.btn-gold:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(201,168,76,0.25);
+}
+
+/* ─── FOOTER ─── */
+.footer {
+  background: var(--text);
+  color: rgba(245,240,232,0.7);
+  padding: 60px 0 0;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.footer .nav-logo {
+  font-size: 1.3rem;
+}
+
+.footer-links {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+}
+
+.footer-links a {
+  font-size: 0.85rem;
+  transition: color 0.25s;
+}
+
+.footer-links a:hover { color: var(--gold); }
+
+.footer-contact-line {
+  font-size: 0.88rem;
+}
+
+.footer-bottom {
+  margin-top: 40px;
+  padding: 20px 0;
+  border-top: 1px solid rgba(245,240,232,0.08);
+  text-align: center;
+  font-size: 0.8rem;
+  color: rgba(245,240,232,0.35);
+}
+
+/* ─── MOBILE ─── */
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: flex; }
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 72px;
+    left: 0;
+    right: 0;
+    background: var(--cream);
+    padding: 24px;
+    gap: 20px;
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+  }
+  .nav-links.open .nav-cta { text-align: center; display: block; }
+  .menu-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .menu-hero { padding: 120px 0 60px; }
+  .menu-item { padding: 20px; }
+  .footer-inner { flex-direction: column; text-align: center; }
+  .footer-links { justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">R&B <span>Kosher Bakery</span> Cafe</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="#">Online Orders</a></li>
+      <li><a href="#">Reservations</a></li>
+      <li><a href="#" class="nav-cta">Book Online</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="menu-hero">
+  <div class="menu-hero-bg"></div>
+  <div class="menu-hero-overlay"></div>
+  <div class="menu-hero-content">
+    <h1>Our Menu</h1>
+    <p>Handcrafted kosher dishes, baked goods, and desserts — made fresh daily.</p>
+  </div>
+</section>
+
+<!-- CATEGORY NAV -->
+<div class="cat-nav">
+  <div class="cat-nav-inner">
+    <button class="cat-btn active" data-target="appetizers">Appetizers</button>
+    <button class="cat-btn" data-target="mains">Mains</button>
+    <button class="cat-btn" data-target="breakfast">Breakfast</button>
+    <button class="cat-btn" data-target="desserts">Desserts</button>
+    <button class="cat-btn" data-target="challah">Challah</button>
+    <button class="cat-btn" data-target="beverages">Beverages</button>
+    <button class="cat-btn" data-target="gluten-free">Gluten Free</button>
+  </div>
+</div>
+
+<!-- MENU BODY -->
+<div class="menu-body">
+  <div class="container">
+
+    <!-- APPETIZERS -->
+    <div class="menu-section" id="appetizers">
+      <div class="menu-section-header">
+        <h2>Appetizers</h2>
+        <p>These dishes are great for sharing</p>
+      </div>
+      <div class="menu-grid">
+        <div class="menu-item">
+          <div class="menu-item-text">
+            <div class="menu-item-top">
+              <h3>Greek Salad</h3>
+              <span class="menu-item-price">$15.00</span>
+            </div>
+            <p class="menu-item-desc">Fresh mix of vegetables, feta cheese and an exquisite dressing to top it all off.</p>
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-text">
+            <div class="menu-item-top">
+              <h3>Caesar Salad</h3>
+              <span class="menu-item-price">$15.00</span>
+            </div>
+            <p class="menu-item-desc">Crisp Romaine leaves tossed with homemade Caesar dressing, croutons and shaved Parmesan cheese.</p>
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-text">
+            <div class="menu-item-top">
+              <h3>Tomato &amp; Cucumber Salad</h3>
+              <span class="menu-item-price">$15.00</span>
+            </div>
+            <p class="menu-item-desc">Classic mix of fresh tomatoes and cucumbers.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAINS -->
+    <div class="menu-section" id="mains">
+      <div class="menu-section-header">
+        <h2>Mains</h2>
+        <p>A diverse range of flavorful dishes, all sourced daily and locally</p>
+      </div>
+      <div class="menu-grid">
+        <div class="menu-item">
+          <div class="menu-item-text">
+            <div class="menu-item-top">
+              <h3>Salmon Fillet</h3>
+              <span class="menu-item-price">$30.00</span>
+            </div>
+            <p class="menu-item-desc">Salmon fillet served with mini roasted potatoes, seasoned with garlic and herbs, along with a tomato, basil, and string bean salad.</p>
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-text">
+            <div class="menu-item-top">
+              <h3>Penovani Khachapuri</h3>
+              <span class="menu-item-price">$7.95</span>
+            </div>
+            <p class="menu-item-desc">Flaky Khachapuri filled with 3 different cheeses.</p>
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-text">
+            <div class="menu-item-top">
+              <h3>Ajarian Khachapuri</h3>
+              <span class="menu-item-price">$20.00</span>
+            </div>
+            <p class="menu-item-desc">Boat-shaped Khachapuri filled with 3 different cheeses. Topped with an egg.</p>
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-text">
+            <div class="menu-item-top">
+              <h3>Pizza</h3>
+              <span class="menu-item-price">$14.95</span>
+            </div>
+            <p class="menu-item-desc">Freshly baked kosher pizza with your choice of toppings.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BREAKFAST -->
+    <div class="menu-section" id="breakfast">
+      <div class="menu-section-header">
+        <h2>Breakfast</h2>
+        <p>Start your morning with our freshly baked bagels and classic combos</p>
+      </div>
+      <div class="menu-grid">
+        <div class="menu-item">
+          <div class="menu-item-text">
+            <div class="menu-item-top">
+              <h3>Bagels</h3>
+              <span class="menu-item-price">$3.00</span>
+            </div>
+            <p class="menu-item-desc">Freshly baked jumbo bagels.</p>
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-text">
+            <div class="menu-item-top">
+              <h3>Bagel with Cream Cheese</h3>
+              <span class="menu-item-price">$8.50</span>
+            </div>
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-text">
+            <div class="menu-item-top">
+              <h3>Bagel with Cream Cheese &amp; Lox</h3>
+              <span class="menu-item-price">$12.50</span>
+            </div>
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-text">
+            <div class="menu-item-top">
+              <h3>Bagel with Lox</h3>
+              <span class="menu-item-price">$10.50</span>
+            </div>
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-text">
+            <div class="menu-item-top">
+              <h3>Bagel with Eggs</h3>
+              <span class="menu-item-price">$14.00</span>
+            </div>
+            <p class="menu-item-desc">Omelette, sunny side-up, or scrambled eggs.</p>
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-text">
+            <div class="menu-item-top">
+              <h3>Bagel with Tuna</h3>
+              <span class="menu-item-price">$8.50</span>
+            </div>
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-text">
+            <div class="menu-item-top">
+              <h3>Bagel with Egg Salad</h3>
+              <span class="menu-item-price">$10.50</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESSERTS -->
+    <div class="menu-section" id="desserts">
+      <div class="menu-section-header">
+        <h2>Desserts</h2>
+        <p>Our desserts are made in-house by our pastry chef</p>
+      </div>
+      <div class="menu-grid">
+        <div class="menu-item">
+          <div class="menu-item-text">
+            <div class="menu-item-top">
+              <h3>Cream Taco</h3>
+              <span class="menu-item-price">$6.50</span>
+            </div>
+            <p class="menu-item-desc">A soft taco shell filled with Chantilly cream and topped with various toppings.</p>
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-text">
+            <div class="menu-item-top">
+              <h3>Mini Mango Cake</h3>
+              <span class="menu-item-price">$7.00</span>
+            </div>
+            <p class="menu-item-desc">A two-layered cake with cream and fresh mango filling.</p>
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-text">
+            <div class="menu-item-top">
+              <h3>Mini Cherry Cake</h3>
+              <span class="menu-item-price">$7.00</span>
+            </div>
+            <p class="menu-item-desc">A two-layered cake with cream and a rich cherry filling.</p>
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-text">
+            <div class="menu-item-top">
+              <h3>Mini Strawberry Shortcake</h3>
+              <span class="menu-item-price">$7.00</span>
+            </div>
+            <p class="menu-item-desc">A two-layered cake with cream and strawberry filling.</p>
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-text">
+            <div class="menu-item-top">
+              <h3>Eclair</h3>
+              <span class="menu-item-price">$8.00</span>
+            </div>
+          </div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-text">
+            <div class="menu-item-top">
+              <h3>Pâte à Choux</h3>
+              <span class="menu-item-price">$8.00</span>
+            </div>
+            <p class="menu-item-desc">A very delicate French pastry.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHALLAH -->
+    <div class="menu-section" id="challah">
+      <div class="menu-section-header">
+        <h2>Challah</h2>
+        <p>Traditional braided bread, baked fresh for Shabbat and holidays</p>
+      </div>
+      <div class="menu-grid">
+        <div class="menu-item">
+          <div class="menu-item-text">
+            <div class="menu-item-top">
+              <h3>Classic Challah</h3>
+              <span class="menu-item-price">Market</span>
+            </div>
+            <p class="menu-item-desc">Traditional braided challah, golden and soft. Perfect for Shabbat dinner.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BEVERAGES -->
+    <div class="menu-section" id="beverages">
+      <div class="menu-section-header">
+        <h2>Beverages</h2>
+        <p>Hot and cold drinks to complement your meal</p>
+      </div>
+      <div class="menu-grid">
+        <div class="menu-item">
+          <div class="menu-item-text">
+            <div class="menu-item-top">
+              <h3>Coffee</h3>
+              <span class="menu-item-price">Market</span>
+            </div>
+            <p class="menu-item-desc">Freshly brewed coffee.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GLUTEN FREE -->
+    <div class="menu-section" id="gluten-free">
+      <div class="menu-section-header">
+        <h2>Gluten Free</h2>
+        <p>Delicious options for gluten-sensitive guests</p>
+      </div>
+      <div class="menu-grid">
+        <div class="menu-item">
+          <div class="menu-item-text">
+            <div class="menu-item-top">
+              <h3>Gluten Free Options</h3>
+              <span class="menu-item-price">Market</span>
+            </div>
+            <p class="menu-item-desc">Ask about our rotating selection of gluten-free baked goods and dishes.</p>
+            <span class="menu-item-tag">Gluten Free</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ORDER CTA -->
+<section class="order-cta">
+  <h2>Ready to Order?</h2>
+  <p>Place your order online for pickup or delivery.</p>
+  <a href="#" class="btn btn-gold">Order Online</a>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <a href="index.html" class="nav-logo">R&B <span>Kosher Bakery</span> Cafe</a>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="#">Online Orders</a></li>
+        <li><a href="#">Reservations</a></li>
+      </ul>
+      <div class="footer-contact-line">(347) 600-2248 · randbkosherbakery@gmail.com</div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 R&B Kosher Bakery Cafe. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('navToggle').addEventListener('click', function() {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+const catBtns = document.querySelectorAll('.cat-btn');
+catBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    catBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const target = document.getElementById(btn.dataset.target);
+    if (target) {
+      const offset = 72 + 52 + 16;
+      const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
+});
+
+const sections = document.querySelectorAll('.menu-section');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      catBtns.forEach(b => b.classList.remove('active'));
+      const match = document.querySelector(`.cat-btn[data-target="${entry.target.id}"]`);
+      if (match) match.classList.add('active');
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+
+sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
